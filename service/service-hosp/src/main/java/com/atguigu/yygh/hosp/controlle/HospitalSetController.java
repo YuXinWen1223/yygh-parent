@@ -24,6 +24,7 @@ import java.util.Random;
 @Api(tags = "医院接口")
 @RequestMapping("/admin/hosp/hospitalSet")
 @RestController
+@CrossOrigin
 public class HospitalSetController {
     @Resource
     HospitalSetService hospitalSetService;
@@ -55,8 +56,12 @@ public class HospitalSetController {
         String hosname = hospitalSetQueryVo.getHosname();
         //医院编号
         String hoscode = hospitalSetQueryVo.getHoscode();
-        if (!StringUtils.isEmpty(hosname)) wrapper.like("hosname", hospitalSetQueryVo.getHosname());
-        if (!StringUtils.isEmpty(hoscode)) wrapper.eq("hoscode", hospitalSetQueryVo.getHoscode());
+        if (!StringUtils.isEmpty(hosname)) {
+            wrapper.like("hosname", hospitalSetQueryVo.getHosname());
+        }
+        if (!StringUtils.isEmpty(hoscode)) {
+            wrapper.eq("hoscode", hospitalSetQueryVo.getHoscode());
+        }
         Page<HospitalSet> pageHospitalSet = hospitalSetService.page(page, wrapper);
         long total = page.getTotal();
         return Result.ok(pageHospitalSet);
@@ -78,8 +83,11 @@ public class HospitalSetController {
         hospitalSet.setSignKey(MD5.encrypt(System.currentTimeMillis() + "" + random.nextInt(1000)));
         //调用service
         boolean save = hospitalSetService.save(hospitalSet);
-        if (save) return Result.ok();
-        else return Result.fail();
+        if (save) {
+            return Result.ok();
+        } else {
+            return Result.fail();
+        }
     }
 
     /**
@@ -111,8 +119,11 @@ public class HospitalSetController {
     @PostMapping("updateHospitalSet")
     public Result updateHospitalSet(@RequestBody HospitalSet hospitalSet) {
         boolean flag = hospitalSetService.updateById(hospitalSet);
-        if (flag) return Result.ok();
-        else return Result.fail();
+        if (flag) {
+            return Result.ok();
+        } else {
+            return Result.fail();
+        }
     }
 
     /**

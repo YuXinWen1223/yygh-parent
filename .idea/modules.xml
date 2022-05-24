@@ -4,10 +4,12 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/commonn/common-util/common-util.iml" filepath="$PROJECT_DIR$/commonn/common-util/common-util.iml" />
       <module fileurl="file://$PROJECT_DIR$/commonn/commonn.iml" filepath="$PROJECT_DIR$/commonn/commonn.iml" />
+      <module fileurl="file://$PROJECT_DIR$/hospital-manage/hospital-manage.iml" filepath="$PROJECT_DIR$/hospital-manage/hospital-manage.iml" />
       <module fileurl="file://$PROJECT_DIR$/model/model.iml" filepath="$PROJECT_DIR$/model/model.iml" />
       <module fileurl="file://$PROJECT_DIR$/service/service.iml" filepath="$PROJECT_DIR$/service/service.iml" />
       <module fileurl="file://$PROJECT_DIR$/service/service-hosp/service-hosp.iml" filepath="$PROJECT_DIR$/service/service-hosp/service-hosp.iml" />
       <module fileurl="file://$PROJECT_DIR$/commonn/service-util/service-util.iml" filepath="$PROJECT_DIR$/commonn/service-util/service-util.iml" />
+      <module fileurl="file://$PROJECT_DIR$/service/service_cmn/service_cmn.iml" filepath="$PROJECT_DIR$/service/service_cmn/service_cmn.iml" />
       <module fileurl="file://$PROJECT_DIR$/yygh-parent.iml" filepath="$PROJECT_DIR$/yygh-parent.iml" />
     </modules>
   </component>
