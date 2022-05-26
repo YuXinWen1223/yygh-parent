@@ -82,7 +82,12 @@ public class ApiController {
         return Result.ok(pageModel);
     }
 
-    //上传排班接口
+    /**
+     * 上传排班接口
+     *
+     * @param request
+     * @return
+     */
     @PostMapping("saveSchedule")
     public Result saveSchedule(HttpServletRequest request) {
         //获取传递过来科室信息
@@ -94,7 +99,12 @@ public class ApiController {
         return Result.ok();
     }
 
-    //删除科室接口
+    /**
+     * 删除科室接口
+     *
+     * @param request
+     * @return
+     */
     @PostMapping("department/remove")
     public Result removeDepartment(HttpServletRequest request) {
         //获取传递过来科室信息

@@ -9,6 +9,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="common-util" />
+        <module name="service-cmn-client" />
         <module name="model" />
         <module name="service-hosp" />
         <module name="service-util" />
@@ -17,14 +18,16 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="8">
-      <module name="common-util" target="1.8" />
+      <module name="common-util" target="8" />
       <module name="commonn" target="1.8" />
       <module name="hospital-manage" target="1.8" />
       <module name="model" target="1.8" />
       <module name="service" target="1.8" />
-      <module name="service-hosp" target="1.8" />
-      <module name="service-util" target="1.8" />
-      <module name="service_cmn" target="1.8" />
+      <module name="service-client" target="1.8" />
+      <module name="service-cmn-client" target="8" />
+      <module name="service-hosp" target="8" />
+      <module name="service-util" target="8" />
+      <module name="service_cmn" target="8" />
       <module name="yygh-parent" target="1.8" />
     </bytecodeTargetLevel>
   </component>
@@ -35,6 +38,8 @@
       <module name="hospital-manage" options="-parameters" />
       <module name="model" options="-parameters" />
       <module name="service" options="-parameters" />
+      <module name="service-client" options="-parameters" />
+      <module name="service-cmn-client" options="-parameters" />
       <module name="service-hosp" options="-parameters" />
       <module name="service-util" options="-parameters" />
       <module name="service_cmn" options="-parameters" />

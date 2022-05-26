@@ -21,7 +21,6 @@ import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
 import org.joda.time.format.DateTimeFormat;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.aggregation.Aggregation;
@@ -30,25 +29,30 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
+import javax.annotation.Resource;
 import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
 public class ScheduleServiceImpl extends ServiceImpl<ScheduleMapper, Schedule> implements ScheduleService {
 
-    @Autowired
+    @Resource
     private ScheduleRepository scheduleRepository;
 
-    @Autowired
+    @Resource
     private MongoTemplate mongoTemplate;
 
-    @Autowired
+    @Resource
     private HospitalService hospitalService;
 
-    @Autowired
+    @Resource
     private DepartmentService departmentService;
 
-    //上传排班接口
+    /**
+     * 上传排班接口
+     *
+     * @param paramMap
+     */
     @Override
     public void save(Map<String, Object> paramMap) {
         //paramMap 转换department对象
@@ -73,7 +77,14 @@ public class ScheduleServiceImpl extends ServiceImpl<ScheduleMapper, Schedule> i
         }
     }
 
-    //查询排班接口
+    /**
+     * 查询排班接口
+     *
+     * @param page
+     * @param limit
+     * @param scheduleQueryVo
+     * @return
+     */
     @Override
     public Page<Schedule> findPageSchedule(int page, int limit, ScheduleQueryVo scheduleQueryVo) {
         // 创建Pageable对象，设置当前页和每页记录数
@@ -94,7 +105,12 @@ public class ScheduleServiceImpl extends ServiceImpl<ScheduleMapper, Schedule> i
         return all;
     }
 
-    //删除排班
+    /**
+     * 删除排班
+     *
+     * @param hoscode
+     * @param hosScheduleId
+     */
     @Override
     public void remove(String hoscode, String hosScheduleId) {
         //根据医院编号和排班编号查询信息
@@ -161,7 +177,14 @@ public class ScheduleServiceImpl extends ServiceImpl<ScheduleMapper, Schedule> i
         return result;
     }
 
-    //根据医院编号 、科室编号和工作日期，查询排班详细信息
+    /**
+     * 根据医院编号 、科室编号和工作日期，查询排班详细信息
+     *
+     * @param hoscode
+     * @param depcode
+     * @param workDate
+     * @return
+     */
     @Override
     public List<Schedule> getDetailSchedule(String hoscode, String depcode, String workDate) {
         //根据参数查询mongodb
@@ -276,14 +299,24 @@ public class ScheduleServiceImpl extends ServiceImpl<ScheduleMapper, Schedule> i
         return result;
     }
 
-    ////获取排班id获取排班数据
+    /**
+     * 获取排班id获取排班数据
+     *
+     * @param scheduleId
+     * @return
+     */
     @Override
     public Schedule getScheduleId(String scheduleId) {
         Schedule schedule = scheduleRepository.findById(scheduleId).get();
         return this.packageSchedule(schedule);
     }
 
-    //根据排班id获取预约下单数据
+    /**
+     * 根据排班id获取预约下单数据
+     *
+     * @param scheduleId
+     * @return
+     */
     @Override
     public ScheduleOrderVo getScheduleOrderVo(String scheduleId) {
         ScheduleOrderVo scheduleOrderVo = new ScheduleOrderVo();
@@ -334,7 +367,11 @@ public class ScheduleServiceImpl extends ServiceImpl<ScheduleMapper, Schedule> i
         return scheduleOrderVo;
     }
 
-    //更新排班信息 用于mp
+    /**
+     * 更新排班信息 用于mp
+     *
+     * @param schedule
+     */
     @Override
     public void update(Schedule schedule) {
         schedule.setUpdateTime(new Date());

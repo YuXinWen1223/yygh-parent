@@ -1,12 +1,16 @@
 package com.atguigu.yygh.hosp.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
+import com.atguigu.yygh.cmn.client.DictFeignClient;
 import com.atguigu.yygh.hosp.repository.HospitalRepository;
 import com.atguigu.yygh.hosp.service.HospitalService;
 import com.atguigu.yygh.model.hosp.Hospital;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.atguigu.yygh.vo.hosp.HospitalQueryVo;
+import org.springframework.beans.BeanUtils;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -14,11 +18,11 @@ import java.util.Map;
 @Service
 public class HospitalServiceImpl implements HospitalService {
 
-    @Autowired
+    @Resource
     private HospitalRepository hospitalRepository;
 
-//    @Autowired
-//    private DictFeignClient dictFeignClient;
+    @Resource
+    private DictFeignClient dictFeignClient;
 
     @Override
     public void save(Map<String, Object> paramMap) {
@@ -31,7 +35,7 @@ public class HospitalServiceImpl implements HospitalService {
         Hospital hospitalExist = hospitalRepository.getHospitalByHoscode(hoscode);
 
         //如果存在，进行修改
-        if(hospitalExist != null) {
+        if (hospitalExist != null) {
             hospital.setStatus(hospitalExist.getStatus());
             hospital.setCreateTime(hospitalExist.getCreateTime());
             hospital.setUpdateTime(new Date());
@@ -52,20 +56,27 @@ public class HospitalServiceImpl implements HospitalService {
         return hospital;
     }
 
-    //医院列表(条件查询分页)
- /*   @Override
+    /**
+     * 医院列表(条件查询分页)
+     *
+     * @param page
+     * @param limit
+     * @param hospitalQueryVo
+     * @return
+     */
+    @Override
     public Page<Hospital> selectHospPage(Integer page, Integer limit, HospitalQueryVo hospitalQueryVo) {
         //创建pageable对象
-        Pageable pageable = PageRequest.of(page-1,limit);
+        Pageable pageable = PageRequest.of(page - 1, limit);
         //创建条件匹配器
         ExampleMatcher matcher = ExampleMatcher.matching()
                 .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING)
                 .withIgnoreCase(true);
         //hospitalSetQueryVo转换Hospital对象
         Hospital hospital = new Hospital();
-        BeanUtils.copyProperties(hospitalQueryVo,hospital);
+        BeanUtils.copyProperties(hospitalQueryVo, hospital);
         //创建对象
-        Example<Hospital> example = Example.of(hospital,matcher);
+        Example<Hospital> example = Example.of(hospital, matcher);
         //调用方法实现查询
         Page<Hospital> pages = hospitalRepository.findAll(example, pageable);
 
@@ -73,9 +84,8 @@ public class HospitalServiceImpl implements HospitalService {
         pages.getContent().stream().forEach(item -> {
             this.setHospitalHosType(item);
         });
-
         return pages;
-    }*/
+    }
 
     //更新医院上线状态
     @Override
@@ -105,7 +115,7 @@ public class HospitalServiceImpl implements HospitalService {
     @Override
     public String getHospName(String hoscode) {
         Hospital hospital = hospitalRepository.getHospitalByHoscode(hoscode);
-        if(hospital != null) {
+        if (hospital != null) {
             return hospital.getHosname();
         }
         return null;
@@ -131,7 +141,12 @@ public class HospitalServiceImpl implements HospitalService {
         return result;
     }*/
 
-   /* //获取查询list集合，遍历进行医院等级封装
+    /**
+     * 获取查询list集合，遍历进行医院等级封装
+     *
+     * @param hospital
+     * @return
+     */
     private Hospital setHospitalHosType(Hospital hospital) {
         //根据dictCode和value获取医院等级名称
         String hostypeString = dictFeignClient.getName("Hostype", hospital.getHostype());
@@ -140,8 +155,8 @@ public class HospitalServiceImpl implements HospitalService {
         String cityString = dictFeignClient.getName(hospital.getCityCode());
         String districtString = dictFeignClient.getName(hospital.getDistrictCode());
 
-        hospital.getParam().put("fullAddress",provinceString+cityString+districtString);
-        hospital.getParam().put("hostypeString",hostypeString);
+        hospital.getParam().put("fullAddress", provinceString + cityString + districtString);
+        hospital.getParam().put("hostypeString", hostypeString);
         return hospital;
-    }*/
+    }
 }
